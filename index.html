@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -1223,4 +1224,1253 @@ function handleForm(e) {
 }
 </script>
 </body>
+=======
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Myckael Asafe — Portfólio</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   VARIÁVEIS & RESET
+   ============================================================ */
+:root {
+  --bg:          #080c10;
+  --surface:     #0d1117;
+  --surface2:    #161c24;
+  --surface3:    #1e2633;
+  --accent:      #00d4ff;
+  --accent2:     #0099cc;
+  --accent-warm: #f97316;
+  --accent-glow: rgba(0, 212, 255, 0.18);
+  --warm-glow:   rgba(249, 115, 22, 0.18);
+  --text:        #e8edf2;
+  --text-muted:  #7a8a9a;
+  --text-dim:    #4a5a6a;
+  --border:      rgba(0, 212, 255, 0.12);
+  --border-warm: rgba(249, 115, 22, 0.15);
+  --radius:      6px;
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-body:    'Outfit', sans-serif;
+  --font-mono:    'JetBrains Mono', monospace;
+  --ease:         cubic-bezier(0.4, 0, 0.2, 1);
+  --trans:        all 0.35s var(--ease);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; overflow-x: hidden; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.75;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* ============================================================
+   CUSTOM CURSOR
+   ============================================================ */
+.cursor-dot {
+  position: fixed; width: 8px; height: 8px;
+  background: var(--accent); border-radius: 50%;
+  pointer-events: none; z-index: 99999;
+  transform: translate(-50%, -50%);
+  transition: transform 0.1s ease;
+}
+.cursor-ring {
+  position: fixed; width: 36px; height: 36px;
+  border: 1.5px solid rgba(0,212,255,0.5); border-radius: 50%;
+  pointer-events: none; z-index: 99998;
+  transform: translate(-50%, -50%);
+  transition: transform 0.18s ease, width 0.2s ease, height 0.2s ease, opacity 0.2s ease;
+}
+.cursor-ring.hovered {
+  width: 60px; height: 60px;
+  border-color: var(--accent-warm); opacity: 0.7;
+}
+
+/* ============================================================
+   SCROLLBAR
+   ============================================================ */
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
+
+/* ============================================================
+   GRAIN OVERLAY
+   ============================================================ */
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 9997;
+}
+
+/* ============================================================
+   NAVBAR
+   ============================================================ */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.1rem 4rem;
+  backdrop-filter: blur(20px) saturate(1.5);
+  -webkit-backdrop-filter: blur(20px);
+  background: rgba(8, 12, 16, 0.88);
+  border-bottom: 1px solid var(--border);
+  transition: var(--trans);
+}
+nav.scrolled { background: rgba(8,12,16,0.98); padding: 0.8rem 4rem; }
+
+.nav-logo {
+  font-family: var(--font-display); font-size: 1.5rem;
+  letter-spacing: 0.08em; color: var(--text); text-decoration: none;
+}
+.nav-logo em { color: var(--accent); font-style: normal; }
+
+.nav-menu { display: flex; list-style: none; gap: 2.5rem; }
+.nav-menu a {
+  text-decoration: none; font-family: var(--font-mono); font-size: 0.7rem;
+  color: var(--text-muted); letter-spacing: 0.2em; text-transform: uppercase;
+  position: relative; transition: color 0.25s ease;
+}
+.nav-menu a::after {
+  content: ''; position: absolute; bottom: -4px; left: 0;
+  width: 0; height: 1px; background: var(--accent); transition: width 0.3s ease;
+}
+.nav-menu a:hover { color: var(--accent); }
+.nav-menu a:hover::after { width: 100%; }
+
+.nav-toggle {
+  display: none; background: none; border: none; cursor: none;
+  flex-direction: column; gap: 5px;
+}
+.nav-toggle span { display: block; width: 22px; height: 1.5px; background: var(--text); transition: var(--trans); }
+
+/* ============================================================
+   HERO
+   ============================================================ */
+#hero {
+  min-height: 100vh;
+  display: grid; grid-template-columns: 1fr 1fr;
+  align-items: center; padding: 7rem 4rem 4rem;
+  position: relative; overflow: hidden;
+}
+
+.hero-mesh {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 80% 40%, rgba(0,212,255,0.07) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 60% at 20% 70%, rgba(249,115,22,0.05) 0%, transparent 70%);
+  animation: meshShift 12s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+@keyframes meshShift {
+  0%   { opacity: 0.8; transform: scale(1); }
+  100% { opacity: 1;   transform: scale(1.04); }
+}
+
+.hero-grid-bg {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(0,212,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,212,255,0.025) 1px, transparent 1px);
+  background-size: 60px 60px; pointer-events: none;
+}
+
+.hero-content { position: relative; z-index: 2; animation: heroIn 0.9s var(--ease) both; }
+@keyframes heroIn {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 0.7rem;
+  font-family: var(--font-mono); font-size: 0.68rem;
+  color: var(--accent); letter-spacing: 0.25em; text-transform: uppercase;
+  margin-bottom: 1.2rem;
+}
+.hero-eyebrow::before {
+  content: ''; display: block; width: 28px; height: 1px; background: var(--accent);
+}
+
+.hero-name {
+  font-family: var(--font-display);
+  font-size: clamp(4rem, 6.5vw, 7rem);
+  line-height: 0.92; letter-spacing: 0.02em; color: var(--text); margin-bottom: 0.6rem;
+}
+.hero-name .line2 { color: var(--accent); }
+.hero-name .line3 { color: transparent; -webkit-text-stroke: 1px rgba(232,237,242,0.25); }
+
+.hero-roles {
+  display: flex; align-items: center; gap: 0.6rem;
+  margin: 1.4rem 0; min-height: 2rem;
+}
+.hero-roles-prefix { font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted); }
+#typed-word {
+  font-family: var(--font-display); font-size: 1.4rem;
+  color: var(--accent-warm); letter-spacing: 0.05em; min-width: 220px;
+  border-right: 2px solid var(--accent-warm); padding-right: 4px;
+  animation: blinkCaret 0.8s step-end infinite;
+}
+@keyframes blinkCaret {
+  0%, 100% { border-color: var(--accent-warm); }
+  50%       { border-color: transparent; }
+}
+
+.hero-desc { font-size: 1rem; color: var(--text-muted); max-width: 460px; line-height: 1.85; margin-bottom: 2.5rem; }
+
+.hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+.btn {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.85rem 1.8rem; font-family: var(--font-mono); font-size: 0.72rem;
+  letter-spacing: 0.15em; text-transform: uppercase; text-decoration: none;
+  border-radius: var(--radius); transition: var(--trans); cursor: none; border: none;
+}
+.btn-primary {
+  background: var(--accent); color: var(--bg); font-weight: 700;
+  box-shadow: 0 0 35px rgba(0,212,255,0.3);
+}
+.btn-primary:hover { background: var(--accent2); box-shadow: 0 0 55px rgba(0,212,255,0.45); transform: translateY(-2px); }
+.btn-ghost { background: transparent; color: var(--text); border: 1px solid var(--border); }
+.btn-ghost:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+/* Hero visual / profile */
+.hero-visual {
+  position: relative; display: flex;
+  justify-content: center; align-items: center;
+  z-index: 2; animation: heroIn 0.9s 0.2s var(--ease) both;
+}
+
+.profile-frame { position: relative; width: 360px; height: 430px; }
+
+/* 
+   FOTO DE PERFIL
+   
+ */
+
+.profile-img {
+  width: 100%; height: 100%; object-fit: cover; object-position: center top;
+  border-radius: var(--radius); display: block; position: relative; z-index: 2;
+  filter: contrast(1.05) saturate(0.9); transition: filter 0.4s ease;
+}
+.profile-img:hover { filter: contrast(1.1) saturate(1.1); }
+
+.profile-placeholder {
+  width: 100%; height: 100%; border-radius: var(--radius);
+  background: var(--surface2); border: 2px dashed rgba(0,212,255,0.25);
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; gap: 0.8rem; position: relative; z-index: 2;
+}
+.profile-placeholder-icon { font-size: 3rem; opacity: 0.3; }
+.profile-placeholder-text {
+  font-family: var(--font-mono); font-size: 0.68rem; color: var(--text-dim);
+  text-align: center; letter-spacing: 0.1em; line-height: 1.9; text-transform: uppercase;
+}
+.profile-placeholder-text strong { color: var(--accent); display: block; font-size: 0.75rem; margin-bottom: 4px; }
+
+.profile-frame::before {
+  content: ''; position: absolute;
+  top: -14px; left: -14px; right: 14px; bottom: -14px;
+  border: 1.5px solid rgba(0,212,255,0.3); border-radius: var(--radius);
+  transition: var(--trans); z-index: 1;
+}
+.profile-frame:hover::before { top: -18px; left: -18px; border-color: var(--accent); }
+.profile-frame::after {
+  content: ''; position: absolute;
+  bottom: 0; left: 0; right: 0; height: 50%;
+  background: linear-gradient(to bottom, transparent, rgba(8,12,16,0.7));
+  z-index: 3; border-radius: 0 0 var(--radius) var(--radius); pointer-events: none;
+}
+
+/* Floating stat chips */
+.stat-chip {
+  position: absolute;
+  background: rgba(13,17,23,0.92); border: 1px solid var(--border);
+  border-radius: 8px; padding: 0.6rem 1rem; z-index: 10;
+  backdrop-filter: blur(12px);
+}
+.stat-chip:nth-child(2) { top: 8%;  right: -40px; animation: float 3.5s ease-in-out infinite; }
+.stat-chip:nth-child(3) { bottom: 22%; left: -44px; animation: float 4s ease-in-out infinite 0.8s; }
+.stat-chip:nth-child(4) { bottom: 5%;  right: -20px; animation: float 3s ease-in-out infinite 0.4s; }
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-8px); }
+}
+.stat-num { display: block; font-family: var(--font-display); font-size: 1.5rem; color: var(--accent); line-height: 1; }
+.stat-lbl { display: block; font-family: var(--font-mono); font-size: 0.6rem; color: var(--text-muted); letter-spacing: 0.12em; text-transform: uppercase; margin-top: 2px; }
+
+/* Scroll cue */
+.scroll-cue {
+  position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
+  z-index: 5; opacity: 0; animation: fadeIn 1s 1.5s ease forwards;
+}
+@keyframes fadeIn { to { opacity: 1; } }
+.scroll-cue span { font-family: var(--font-mono); font-size: 0.6rem; color: var(--text-dim); letter-spacing: 0.2em; text-transform: uppercase; }
+.scroll-line {
+  width: 1px; height: 50px;
+  background: linear-gradient(to bottom, var(--accent), transparent);
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+@keyframes scrollPulse {
+  0%   { transform: scaleY(0); transform-origin: top;    opacity: 1; }
+  45%  { transform: scaleY(1); transform-origin: top;    opacity: 1; }
+  46%  { transform: scaleY(1); transform-origin: bottom; }
+  100% { transform: scaleY(0); transform-origin: bottom; opacity: 0.3; }
+}
+
+/* ============================================================
+   SEÇÕES — BASE
+   ============================================================ */
+section { padding: 7rem 4rem; position: relative; }
+
+.sec-tag {
+  display: flex; align-items: center; gap: 0.8rem;
+  font-family: var(--font-mono); font-size: 0.68rem;
+  color: var(--accent); letter-spacing: 0.28em; text-transform: uppercase; margin-bottom: 0.7rem;
+}
+.sec-tag::before { content: ''; display: block; width: 24px; height: 1px; background: var(--accent); flex-shrink: 0; }
+
+.sec-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.8rem, 4.5vw, 5rem);
+  line-height: 0.95; letter-spacing: 0.02em; color: var(--text); margin-bottom: 3.5rem;
+}
+
+.sec-divider {
+  position: absolute; top: 0; left: 4rem; right: 4rem;
+  height: 1px; background: linear-gradient(90deg, transparent, var(--accent), transparent); opacity: 0.3;
+}
+
+/* ============================================================
+   REVEAL ON SCROLL
+   ============================================================ */
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal.in { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+
+/* ============================================================
+   SOBRE
+   ============================================================ */
+#sobre { background: var(--surface); }
+
+.sobre-grid { display: grid; grid-template-columns: 3fr 2fr; gap: 5rem; align-items: start; }
+.sobre-blocks { display: flex; flex-direction: column; gap: 1.8rem; }
+
+.sobre-block-label {
+  font-family: var(--font-mono); font-size: 0.62rem; color: var(--accent);
+  letter-spacing: 0.22em; text-transform: uppercase; margin-bottom: 0.5rem;
+}
+.sobre-block p { color: var(--text-muted); font-size: 0.97rem; line-height: 1.9; }
+.sobre-block p strong { color: var(--text); font-weight: 600; }
+
+.quote-block {
+  margin: 0.5rem 0; padding: 1.1rem 1.4rem;
+  border-left: 2px solid var(--accent); background: var(--surface2);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  font-size: 0.93rem; color: var(--text); font-style: italic; line-height: 1.75;
+}
+
+.traits { display: flex; flex-direction: column; gap: 0.9rem; }
+.trait {
+  display: flex; gap: 1rem; align-items: flex-start;
+  padding: 1rem 1.1rem; background: var(--surface2);
+  border: 1px solid var(--border); border-radius: var(--radius); transition: var(--trans);
+}
+.trait:hover { border-color: var(--accent); transform: translateX(5px); box-shadow: 0 0 20px var(--accent-glow); }
+.trait-icon { font-size: 1.4rem; flex-shrink: 0; margin-top: 2px; }
+.trait-name { font-family: var(--font-display); font-size: 1.05rem; color: var(--accent); letter-spacing: 0.05em; margin-bottom: 0.2rem; }
+.trait-text { font-size: 0.82rem; color: var(--text-muted); line-height: 1.65; }
+
+/* ============================================================
+   SKILLS
+   ============================================================ */
+#skills { background: var(--bg); }
+.skills-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; }
+
+.skill-group-title {
+  font-family: var(--font-mono); font-size: 0.65rem; color: var(--text-dim);
+  text-transform: uppercase; letter-spacing: 0.25em; margin-bottom: 1.4rem;
+  display: flex; align-items: center; gap: 0.7rem;
+}
+.skill-group-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+.skill-list { display: flex; flex-direction: column; gap: 1.1rem; margin-bottom: 2.5rem; }
+.skill-meta { display: flex; justify-content: space-between; margin-bottom: 0.4rem; }
+.skill-name { font-size: 0.88rem; color: var(--text); font-weight: 500; }
+.skill-pct  { font-family: var(--font-mono); font-size: 0.68rem; color: var(--accent); }
+.skill-bar  { height: 3px; background: var(--surface3); border-radius: 2px; overflow: hidden; }
+.skill-fill { height: 100%; width: 0; background: linear-gradient(90deg, var(--accent2), var(--accent)); border-radius: 2px; transition: width 1.3s cubic-bezier(0.4,0,0.2,1); }
+.skill-fill.warm { background: linear-gradient(90deg, #d97706, var(--accent-warm)); }
+
+/* Timeline */
+.timeline { position: relative; padding-left: 1.6rem; }
+.timeline::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 1px; background: linear-gradient(to bottom, var(--accent), rgba(0,212,255,0.05)); }
+
+.tl-item { position: relative; margin-bottom: 2rem; opacity: 0; transform: translateX(-10px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.tl-item.in { opacity: 1; transform: translateX(0); }
+.tl-item::before { content: ''; position: absolute; left: -1.85rem; top: 5px; width: 9px; height: 9px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 10px var(--accent); }
+.tl-period { font-family: var(--font-mono); font-size: 0.62rem; color: var(--accent); text-transform: uppercase; letter-spacing: 0.18em; margin-bottom: 0.3rem; }
+.tl-title  { font-size: 0.95rem; font-weight: 700; color: var(--text); margin-bottom: 0.35rem; }
+.tl-desc   { font-size: 0.82rem; color: var(--text-muted); line-height: 1.72; }
+
+/* ============================================================
+   GALERIA / ESPORTES
+   ============================================================ */
+#galeria { background: var(--surface); }
+.galeria-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+.galeria-text p { color: var(--text-muted); font-size: 0.97rem; line-height: 1.9; margin-bottom: 1.2rem; }
+.galeria-text p strong { color: var(--text); }
+
+.sport-tags { display: grid; grid-template-columns: 1fr 1fr; gap: 0.7rem; margin-top: 1.5rem; }
+.sport-tag {
+  display: flex; align-items: center; gap: 0.6rem;
+  padding: 0.65rem 0.9rem; background: var(--surface2);
+  border: 1px solid var(--border-warm); border-radius: var(--radius);
+  font-size: 0.83rem; color: var(--text); font-weight: 500;
+  transition: var(--trans); cursor: default;
+}
+.sport-tag:hover { border-color: var(--accent-warm); color: var(--accent-warm); transform: translateX(4px); }
+.sport-tag span { font-size: 1.15rem; }
+
+/* Media grid */
+.media-grid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: auto auto; gap: 0.9rem; }
+.media-item {
+  position: relative; overflow: hidden; border-radius: var(--radius);
+  border: 1px solid var(--border); cursor: none; background: var(--surface2);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.media-item:hover { border-color: var(--accent-warm); box-shadow: 0 0 30px var(--warm-glow); }
+.media-item.tall { grid-row: span 2; }
+.media-item.wide { grid-column: span 2; }
+
+/* 
+    FOTO DE BASQUETE — media-item #1 (wide)
+
+
+    VÍDEO DE HANDBALL — media-item #2 (tall)
+
+ */
+.media-item img, .media-item video {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  transition: transform 0.45s ease; min-height: 180px;
+}
+.media-item:hover img, .media-item:hover video { transform: scale(1.04); }
+
+.media-placeholder {
+  width: 100%; min-height: 180px; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 0.6rem; padding: 2rem;
+  background: var(--surface3);
+}
+.media-placeholder-tall { min-height: 380px; }
+.ph-icon { font-size: 2.2rem; opacity: 0.4; }
+.ph-label { font-family: var(--font-mono); font-size: 0.62rem; color: var(--text-dim); text-align: center; letter-spacing: 0.12em; line-height: 1.9; text-transform: uppercase; }
+.ph-label strong { color: var(--accent-warm); display: block; margin-bottom: 4px; font-size: 0.7rem; }
+
+.media-overlay {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 1.2rem 0.9rem 0.9rem;
+  background: linear-gradient(to top, rgba(8,12,16,0.88), transparent);
+  transform: translateY(100%); transition: transform 0.3s ease; z-index: 2;
+}
+.media-item:hover .media-overlay { transform: translateY(0); }
+.media-overlay-text { font-family: var(--font-mono); font-size: 0.65rem; color: var(--accent-warm); text-transform: uppercase; letter-spacing: 0.15em; }
+
+/* Lightbox */
+.lightbox {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 9996;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+}
+.lightbox.open { opacity: 1; pointer-events: all; }
+.lightbox-inner img, .lightbox-inner video { max-width: 88vw; max-height: 88vh; border-radius: var(--radius); border: 1px solid var(--border); }
+.lightbox-close { position: absolute; top: 1.5rem; right: 2rem; font-size: 1.8rem; color: var(--text-muted); background: none; border: none; cursor: none; transition: color 0.2s ease; }
+.lightbox-close:hover { color: var(--accent); }
+
+/* ============================================================
+   WEBTOONS
+   ============================================================ */
+#webtoons { background: var(--bg); }
+.webtoons-intro { max-width: 580px; color: var(--text-muted); font-size: 0.97rem; line-height: 1.85; margin-bottom: 3rem; }
+
+.webtoon-shelf { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.1rem; }
+
+.wt-card {
+  position: relative; aspect-ratio: 3/4; border-radius: var(--radius);
+  overflow: hidden; border: 1px solid var(--border); cursor: none;
+  background: var(--surface2); transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+}
+.wt-card:hover { transform: translateY(-8px) scale(1.02); box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 30px var(--accent-glow); border-color: var(--accent); }
+
+
+.wt-img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s ease, filter 0.4s ease; filter: brightness(0.8) saturate(0.85); }
+.wt-card:hover .wt-img { transform: scale(1.07); filter: brightness(1) saturate(1.1); }
+
+.wt-placeholder { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.7rem; padding: 1.5rem; background: var(--surface3); }
+.wt-ph-num { font-family: var(--font-display); font-size: 3rem; color: rgba(0,212,255,0.15); }
+.wt-ph-text { font-family: var(--font-mono); font-size: 0.6rem; color: var(--text-dim); text-align: center; letter-spacing: 0.1em; text-transform: uppercase; line-height: 1.8; }
+.wt-ph-text strong { color: var(--accent); display: block; font-size: 0.68rem; }
+
+.wt-info { position: absolute; bottom: 0; left: 0; right: 0; padding: 1.5rem 1rem 1rem; background: linear-gradient(to top, rgba(8,12,16,0.98), transparent); }
+.wt-title { font-family: var(--font-display); font-size: 0.95rem; color: var(--text); letter-spacing: 0.04em; margin-bottom: 0.2rem; }
+.wt-badge { display: inline-block; font-family: var(--font-mono); font-size: 0.55rem; color: var(--accent); letter-spacing: 0.18em; text-transform: uppercase; border: 1px solid rgba(0,212,255,0.3); border-radius: 2px; padding: 0.1rem 0.4rem; }
+
+/* ============================================================
+   CONTATO
+   ============================================================ */
+#contato { background: var(--surface); }
+.contato-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+.contato-info p { color: var(--text-muted); font-size: 0.97rem; line-height: 1.85; margin-bottom: 2rem; }
+
+.avail-badge {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  background: rgba(34,197,94,0.08); border: 1px solid rgba(34,197,94,0.25);
+  border-radius: 20px; padding: 0.35rem 0.85rem; font-family: var(--font-mono);
+  font-size: 0.65rem; color: #4ade80; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 1.5rem;
+}
+.avail-dot { width: 6px; height: 6px; background: #4ade80; border-radius: 50%; animation: pulse 2s ease infinite; }
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(74,222,128,0.4); }
+  50%       { box-shadow: 0 0 0 5px rgba(74,222,128,0); }
+}
+
+.contact-links { display: flex; flex-direction: column; gap: 0.8rem; }
+.c-link {
+  display: flex; align-items: center; gap: 1rem; padding: 0.9rem 1.1rem;
+  background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius);
+  text-decoration: none; color: var(--text); transition: var(--trans);
+}
+.c-link:hover { border-color: var(--accent); color: var(--accent); transform: translateX(6px); box-shadow: 0 0 20px var(--accent-glow); }
+.c-link-icon { font-size: 1.2rem; width: 2rem; text-align: center; flex-shrink: 0; }
+.c-link-lbl { font-family: var(--font-mono); font-size: 0.58rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.18em; }
+.c-link-val { font-size: 0.88rem; font-weight: 500; }
+
+.contact-form { display: flex; flex-direction: column; gap: 1.1rem; }
+.form-field { display: flex; flex-direction: column; gap: 0.4rem; }
+.form-lbl { font-family: var(--font-mono); font-size: 0.62rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.18em; }
+.form-input, .form-textarea {
+  background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 0.85rem 1rem; color: var(--text); font-family: var(--font-body); font-size: 0.93rem;
+  outline: none; transition: border-color 0.25s ease, box-shadow 0.25s ease; resize: vertical;
+}
+.form-input:focus, .form-textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
+.form-textarea { min-height: 110px; }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+footer {
+  padding: 1.8rem 4rem;
+  border-top: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.footer-copy { font-family: var(--font-mono); font-size: 0.68rem; color: var(--text-dim); letter-spacing: 0.1em; }
+.footer-copy em { color: var(--accent); font-style: normal; }
+.footer-badge { font-family: var(--font-mono); font-size: 0.62rem; color: var(--text-dim); letter-spacing: 0.08em; }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 1024px) {
+  #hero, section { padding-left: 2.5rem; padding-right: 2.5rem; }
+  nav { padding-left: 2.5rem; padding-right: 2.5rem; }
+  nav.scrolled { padding-left: 2.5rem; padding-right: 2.5rem; }
+  .webtoon-shelf { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+  nav { padding: 1rem 1.5rem; }
+  nav.scrolled { padding: 0.7rem 1.5rem; }
+  .nav-menu { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: rgba(8,12,16,0.99); padding: 1.5rem; gap: 1.5rem; border-bottom: 1px solid var(--border); }
+  .nav-menu.open { display: flex; }
+  .nav-toggle { display: flex; }
+
+  #hero { grid-template-columns: 1fr; text-align: center; padding: 8rem 1.5rem 5rem; gap: 3rem; }
+  .hero-visual { order: -1; }
+  .profile-frame { width: 240px; height: 290px; }
+  .stat-chip { display: none; }
+  .hero-desc { margin: 0 auto 2rem; }
+  .hero-roles { justify-content: center; }
+  .hero-actions { justify-content: center; }
+  .hero-eyebrow { justify-content: center; }
+
+  section { padding: 4.5rem 1.5rem; }
+  .sobre-grid, .skills-layout, .galeria-layout, .contato-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+  .sport-tags { grid-template-columns: 1fr; }
+  .media-grid { grid-template-columns: 1fr; }
+  .media-item.tall { grid-row: auto; }
+  .media-item.wide { grid-column: auto; }
+  .webtoon-shelf { grid-template-columns: 1fr 1fr; }
+  footer { flex-direction: column; gap: 0.5rem; padding: 1.5rem; text-align: center; }
+  .sec-divider { left: 1.5rem; right: 1.5rem; }
+}
+
+@media (max-width: 480px) {
+  .hero-name { font-size: 3.2rem; }
+  .webtoon-shelf { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- CUSTOM CURSOR -->
+<div class="cursor-dot"  id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <div class="lightbox-inner" id="lightboxContent"></div>
+</div>
+
+<!-- ============================================================
+     NAVBAR
+     ============================================================ -->
+<nav id="navbar">
+  <a href="#hero" class="nav-logo">M<em>.</em>MOURÃO</a>
+  <ul class="nav-menu" id="navMenu">
+    <li><a href="#hero">Home</a></li>
+    <li><a href="#sobre">Sobre</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#galeria">Esportes</a></li>
+    <li><a href="#webtoons">Webtoons</a></li>
+    <li><a href="#contato">Contato</a></li>
+  </ul>
+  <button class="nav-toggle" id="navToggle" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- ============================================================
+     HERO
+     ============================================================ -->
+<section id="hero">
+  <div class="hero-mesh"></div>
+  <div class="hero-grid-bg"></div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">Disponível para oportunidades</div>
+    <h1 class="hero-name">
+      <span class="line1">MYCKAEL</span><br>
+      <span class="line2">MOURÃO</span><br>
+      <span class="line3">DEV</span>
+    </h1>
+    <div class="hero-roles">
+      <span class="hero-roles-prefix">_</span>
+      <span id="typed-word">Desenvolvedor</span>
+    </div>
+    <p class="hero-desc">
+      Analista PCM em transição para a área de software. Esportista, autodidata,
+      leitor de webtoons em inglês — apaixonado por resolver problemas de formas cada vez mais simples.
+    </p>
+    <div class="hero-actions">
+      <a href="#sobre"   class="btn btn-primary">Conheça minha história</a>
+      <a href="#contato" class="btn btn-ghost">Entre em contato</a>
+    </div>
+  </div>
+
+ 
+  <div class="hero-visual">
+    <div class="profile-frame">
+
+      <!-- PLACEHOLDER — apague este bloco quando tiver a foto -->
+      <div class="profile-placeholder">
+        <img src="minha-foto.jpg" alt="Myckael Mourão" class="profile-img">
+        </span>
+      </div>
+      <!-- FIM PLACEHOLDER -->
+
+      <!-- DESCOMENTE E EDITE quando tiver a foto: -->
+      <!-- <img src="FOTO-PERFIL.jpg" alt="Myckael Mourão" class="profile-img"> -->
+
+      <div class="stat-chip">
+        <span class="stat-num">18+</span>
+        <span class="stat-lbl">Anos em Maringá</span>
+      </div>
+      <div class="stat-chip">
+        <span class="stat-num">6+</span>
+        <span class="stat-lbl">Esportes praticados</span>
+      </div>
+      <div class="stat-chip">
+        <span class="stat-num">PCM</span>
+        <span class="stat-lbl">Analista atual</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-cue">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SOBRE MIM
+     ============================================================ -->
+<section id="sobre">
+  <div class="sec-divider"></div>
+  <div class="sec-tag reveal">01 — Sobre mim</div>
+  <h2 class="sec-title reveal">QUEM SOU EU</h2>
+
+  <div class="sobre-grid">
+    <div class="sobre-blocks">
+
+      <div class="sobre-block reveal">
+        <div class="sobre-block-label">Origem & identidade</div>
+        <p>
+          Meu nome é <strong>Myckael Asafe Gama Vieira Freitas Mourão</strong> — sim, é grande mesmo.
+          Meus pais não economizaram nas homenagens. Nasci em Brasília e cresci em Maringá,
+          onde vivo há 18 anos e que considero minha verdadeira casa.
+        </p>
+      </div>
+
+      <div class="sobre-block reveal reveal-delay-1">
+        <div class="sobre-block-label">Vida nos esportes</div>
+        <p>
+          Cresci dentro das quadras. Basquete, tênis de mesa, futsal, handball e baseball —
+          <strong>sempre fui muito bom em esportes</strong>, e não foi por acidente.
+          Aprendi desde cedo que disciplina e repetição são o único caminho para a excelência.
+          No ensino médio, essa energia migrou para os e-sports: fui até o
+          <strong>rank Mestre no League of Legends</strong>, o que exige mais estratégia e
+          resiliência do que parece.
+        </p>
+      </div>
+
+      <div class="sobre-block reveal reveal-delay-2">
+        <div class="sobre-block-label">Transição para tecnologia</div>
+        <p>
+          Quando percebi que precisava direcionar meu foco para uma carreira, a escolha foi natural:
+          <strong>Engenharia de Software</strong>. Sempre passei muito tempo no computador e
+          sempre fui curioso com o que acontecia "por baixo do capô". Era a continuação
+          lógica da minha história.
+        </p>
+      </div>
+
+      <div class="sobre-block reveal reveal-delay-3">
+        <div class="sobre-block-label">Inglês — aprendizado orgânico</div>
+        <p>
+          Na pandemia, iniciei um curso de inglês e alcancei nível intermediário.
+          As dificuldades financeiras interromperam o curso — mas não o aprendizado.
+          Comecei a ler mangás e webtoons <strong>diretamente em inglês</strong>,
+          pesquisando palavra por palavra no início, até a língua ir fluindo naturalmente.
+          Nos últimos dois anos, todo o meu consumo de conteúdo é em inglês.
+          A leitura já é fluente; a fala ainda está em desenvolvimento.
+        </p>
+        <div class="quote-block">
+          "Às vezes a melhor escola é a impaciência — fiquei cansado de esperar as traduções
+          em português e simplesmente mergulhei no original."
+        </div>
+      </div>
+
+      <div class="sobre-block reveal">
+        <div class="sobre-block-label">Experiência profissional</div>
+        <p>
+          Atualmente trabalho como <strong>Analista PCM</strong> no horário comercial.
+          Me especializei em Excel e LibreOffice — construí dashboards, automatizei processos
+          e aprendi que o melhor código é o que você não precisa escrever.
+          Conforme fui evoluindo, percebi que fazia as coisas do jeito mais difícil
+          e passei a simplificar tudo. Essa mentalidade de <strong>otimização contínua</strong>
+          é o que carrego para qualquer desafio.
+        </p>
+      </div>
+
+    </div>
+
+    <div>
+      <div class="traits reveal">
+        <div class="trait">
+          <span class="trait-icon">🔥</span>
+          <div class="trait-body">
+            <div class="trait-name">RESILIÊNCIA</div>
+            <div class="trait-text">Dificuldades financeiras, cutoffs de rank, palavras desconhecidas em inglês — todos viraram degraus. Obstáculos são parte do processo, não o fim.</div>
+          </div>
+        </div>
+        <div class="trait">
+          <span class="trait-icon">⚡</span>
+          <div class="trait-body">
+            <div class="trait-name">APRENDIZADO RÁPIDO</div>
+            <div class="trait-text">Do inglês autodidata via webtoons às macros de Excel — absorvo conteúdo novo com facilidade e aplico na prática sem depender de supervisão.</div>
+          </div>
+        </div>
+        <div class="trait">
+          <span class="trait-icon">🎯</span>
+          <div class="trait-body">
+            <div class="trait-name">SIMPLIFICAÇÃO</div>
+            <div class="trait-text">Percebi que sempre fiz as coisas do jeito mais difícil. Aprendi que a melhor solução é a mais simples — e passei a automatizar para eliminar esforço desnecessário.</div>
+          </div>
+        </div>
+        <div class="trait">
+          <span class="trait-icon">🤝</span>
+          <div class="trait-body">
+            <div class="trait-name">ESFORÇO GENUÍNO</div>
+            <div class="trait-text">Me importo com a qualidade do que entrego. Não desisto no meio do caminho e tenho vontade real de aprender — não só de figurar no currículo.</div>
+          </div>
+        </div>
+        <div class="trait">
+          <span class="trait-icon">🏆</span>
+          <div class="trait-body">
+            <div class="trait-name">MENTALIDADE DE ATLETA</div>
+            <div class="trait-text">Alta performance, adaptabilidade e trabalho em equipe vêm da quadra. Esses valores entram em tudo que faço.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SKILLS / EXPERIÊNCIA
+     ============================================================ -->
+<section id="skills">
+  <div class="sec-divider"></div>
+  <div class="sec-tag reveal">02 — Habilidades & Jornada</div>
+  <h2 class="sec-title reveal">ONDE ME DESTACO</h2>
+
+  <div class="skills-layout">
+    <div class="reveal">
+      <div class="skill-group-title">Ferramentas & Dados</div>
+      <div class="skill-list">
+        <div class="skill-row">
+          <div class="skill-meta"><span class="skill-name">Excel / LibreOffice</span><span class="skill-pct">Avançado</span></div>
+          <div class="skill-bar"><div class="skill-fill" data-w="88"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-meta"><span class="skill-name">Dashboards & Relatórios</span><span class="skill-pct">Avançado</span></div>
+          <div class="skill-bar"><div class="skill-fill" data-w="85"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-meta"><span class="skill-name">Automação de Processos</span><span class="skill-pct">Intermediário</span></div>
+          <div class="skill-bar"><div class="skill-fill" data-w="74"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-meta"><span class="skill-name">Sistemas / ERP PCM</span><span class="skill-pct">Intermediário</span></div>
+          <div class="skill-bar"><div class="skill-fill" data-w="72"></div></div>
+        </div>
+      </div>
+
+      <div class="skill-group-title">Desenvolvimento & Idioma</div>
+      <div class="skill-list">
+        <div class="skill-row">
+          <div class="skill-meta"><span class="skill-name">Lógica de Programação</span><span class="skill-pct">Sólida</span></div>
+          <div class="skill-bar"><div class="skill-fill" data-w="70"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-meta"><span class="skill-name">HTML / CSS</span><span class="skill-pct">Intermediário</span></div>
+          <div class="skill-bar"><div class="skill-fill" data-w="60"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-meta"><span class="skill-name">Inglês — Leitura & Compreensão</span><span class="skill-pct">Int-Avançado</span></div>
+          <div class="skill-bar"><div class="skill-fill warm" data-w="80"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-meta"><span class="skill-name">Inglês — Fala</span><span class="skill-pct">Em desenvolvimento</span></div>
+          <div class="skill-bar"><div class="skill-fill warm" data-w="42"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal reveal-delay-1">
+      <div class="skill-group-title" style="margin-bottom: 1.8rem;">Minha Jornada</div>
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-period">Infância → Ensino Médio</div>
+          <div class="tl-title">Atleta por natureza</div>
+          <div class="tl-desc">Basquete, tênis de mesa, futsal, handball e baseball. Esportes ensinaram disciplina, competitividade e a capacidade de aprender qualquer coisa rápido.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-period">Ensino Médio</div>
+          <div class="tl-title">E-Sports — Rank Mestre (LoL)</div>
+          <div class="tl-desc">Pensamento estratégico, foco sob pressão e resiliência. Percebeu que era hora de direcionar essa energia para uma carreira real.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-period">Pandemia</div>
+          <div class="tl-title">Inglês + Início em Engenharia de Software</div>
+          <div class="tl-desc">Curso de inglês até nível intermediário. Início na graduação em Engenharia de Software — a junção natural entre paixão por computadores e ambição profissional.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-period">Últimos 2 anos</div>
+          <div class="tl-title">Inglês orgânico via Webtoons & Mangás</div>
+          <div class="tl-desc">Cansado das traduções lentas, passou a consumir tudo em inglês. Palavra por palavra, até a leitura se tornar fluente. Hoje é seu canal natural de conteúdo.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-period">Atualmente</div>
+          <div class="tl-title">Analista PCM — Excel Avançado & Automação</div>
+          <div class="tl-desc">Dashboards, funções avançadas, automação e integração com sistemas. Aprendeu a simplificar o que era complexo — a mesma mentalidade que leva para o software.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-period">Próximo capítulo</div>
+          <div class="tl-title">Estágio ou Posição Júnior em Software</div>
+          <div class="tl-desc">Buscando oportunidade (turno noturno disponível) para iniciar a carreira em desenvolvimento de software com tudo que já construiu até aqui.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     ESPORTES & GALERIA
+     ============================================================ -->
+<section id="galeria">
+  <div class="sec-divider"></div>
+  <div class="sec-tag reveal">03 — Esportes & Galeria</div>
+  <h2 class="sec-title reveal">NA QUADRA E NA VIDA</h2>
+
+  <div class="galeria-layout">
+    <div class="galeria-text reveal">
+      <p>
+        O esporte foi minha primeira escola de alta performance. Antes de qualquer linha de código
+        ou planilha, aprendi nas quadras o que significa <strong>dar o máximo quando importa</strong> —
+        e aceitar a derrota como dado, não como destino.
+      </p>
+      <p>
+        A capacidade de aprender modalidades diferentes em pouco tempo é o mesmo músculo que
+        uso para aprender tecnologias novas. <strong>Adaptabilidade não é soft skill, é sobrevivência.</strong>
+      </p>
+      <p>
+        No handball, tomadas de decisão rápidas e leitura de time. No basquete, frieza nos
+        momentos finais e visão de jogo. Esses padrões aparecem no meu trabalho, e aparecem
+        na forma como encaro qualquer novo desafio.
+      </p>
+
+      <div class="sport-tags">
+        <div class="sport-tag"><span>🏀</span> Basquete</div>
+        <div class="sport-tag"><span>🤾</span> Handball</div>
+        <div class="sport-tag"><span>⚽</span> Futsal</div>
+        <div class="sport-tag"><span>🏓</span> Tênis de Mesa</div>
+        <div class="sport-tag"><span>⚾</span> Baseball</div>
+        <div class="sport-tag"><span>🎮</span> E-Sports (Mestre)</div>
+      </div>
+    </div>
+
+    <div class="reveal reveal-delay-1">
+      <div class="media-grid">
+
+        <!-- ══════════════════════════════════════════════════════
+             📸 ESPAÇO — FOTO JOGANDO BASQUETE (wide)
+             
+             Para adicionar:
+             1. Apague o bloco <div class="media-placeholder">
+             2. Adicione: <img src="basquete.jpg" alt="Jogando basquete">
+             ══════════════════════════════════════════════════════ -->
+        <div class="media-item wide" onclick="openLightbox(this)" data-type="image">
+          <!-- PLACEHOLDER -->
+          <div class="media-placeholder">
+            <span class="ph-icon">🏀</span>
+            <div class="ph-label">
+              <strong>Foto — Basquete</strong>
+              <img src="basquete.jpg" alt="Jogando basquete">
+            </div>
+          </div>
+          <!-- DESCOMENTE:
+          <img src="FOTO-BASQUETE.jpg" alt="Myckael jogando basquete">
+          -->
+          <div class="media-overlay"><div class="media-overlay-text">🏀 Na quadra — Basquete</div></div>
+        </div>
+
+ 
+        <div class="media-item tall" onclick="openLightbox(this)" data-type="video">
+          <!-- PLACEHOLDER -->
+          <div class="media-placeholder media-placeholder-tall">
+            <span class="ph-icon">🎥</span>
+            <div class="ph-label">
+              <strong>Vídeo — Handball</strong>
+              <video src="handball.mp4" autoplay muted loop playsinline></video>
+            </div>
+          </div>
+          <!-- DESCOMENTE:
+          <video src="VIDEO-HANDBALL.mp4" autoplay muted loop playsinline></video>
+          -->
+          <div class="media-overlay"><div class="media-overlay-text">🤾 Handball em ação</div></div>
+        </div>
+
+        <!-- Slot extra opcional -->
+        <div class="media-item">
+          <div class="media-placeholder">
+            <span class="ph-icon">📸</span>
+            <img src="basquete1.jpg" alt="Jogando basquete">
+          </div>
+          <div class="media-overlay"><div class="media-overlay-text">📸 Galeria</div></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     WEBTOONS
+     ============================================================ -->
+<section id="webtoons">
+  <div class="sec-divider"></div>
+  <div class="sec-tag reveal">04 — Webtoons em inglês</div>
+  <h2 class="sec-title reveal">MINHA BIBLIOTECA</h2>
+
+  <p class="webtoons-intro reveal">
+    Foi lendo webtoons que desenvolvi o inglês de forma orgânica — sem professor,
+    sem curso, palavra por palavra. Cansado de esperar as traduções em português,
+    mergulhei direto no original. Estas são as obras que me acompanharam nessa jornada.
+  </p>
+
+ 
+  <div class="webtoon-shelf">
+
+    <div class="wt-card reveal">
+     <img src="greatest.jpg" class="wt-img" alt="Título">
+      <div class="wt-info">
+        <div class="wt-title">The Greatest State Developer</div>
+        <div class="wt-badge">📖 Em inglês</div>
+      </div>
+    </div>
+
+    <div class="wt-card reveal reveal-delay-1">
+      <img src="unor.jpg" class="wt-img" alt="Título">
+      <div class="wt-info">
+        <div class="wt-title">Unordinary</div>
+        <div class="wt-badge">📖 Em inglês</div>
+      </div>
+    </div>
+
+    <div class="wt-card reveal reveal-delay-2">
+      <img src="super.jpg" class="wt-img" alt="Título">
+      <div class="wt-info">
+        <div class="wt-title">Superhuman Era</div>
+        <div class="wt-badge">📖 Em inglês</div>
+      </div>
+    </div>
+
+    <div class="wt-card reveal reveal-delay-3">
+      <img src="bad.jpg" class="wt-img" alt="Título">
+      <div class="wt-info">
+        <div class="wt-title">Bad Born Blood</div>
+        <div class="wt-badge">📖 Em inglês</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     CONTATO
+     ============================================================ -->
+<section id="contato">
+  <div class="sec-divider"></div>
+  <div class="sec-tag reveal">05 — Contato</div>
+  <h2 class="sec-title reveal">VAMOS CONVERSAR</h2>
+
+  <div class="contato-grid">
+    <div class="contato-info reveal">
+      <div class="avail-badge">
+        <span class="avail-dot"></span>
+        Disponível para oportunidades
+      </div>
+      <p>
+        Estou buscando estágio ou posição júnior em desenvolvimento de software —
+        especialmente no <strong>turno noturno</strong>, para complementar minha renda atual.
+        Se você procura alguém que aprende rápido, entrega com consistência e não
+        precisa de mão na roda, a conversa começa aqui.
+      </p>
+      <div class="contact-links">
+        <!-- ✏️ Edite os links e valores com suas informações reais -->
+        <a href="mailto:seuemail@email.com" class="c-link">
+          <span class="c-link-icon">📧</span>
+          <div class="c-link-body">
+            <div class="c-link-lbl">Email</div>
+            <div class="c-link-val">seuemail@email.com</div>
+          </div>
+        </a>
+        <a href="https://linkedin.com/in/seuperfil" target="_blank" class="c-link">
+          <span class="c-link-icon">💼</span>
+          <div class="c-link-body">
+            <div class="c-link-lbl">LinkedIn</div>
+            <div class="c-link-val">linkedin.com/in/seuperfil</div>
+          </div>
+        </a>
+        <a href="https://github.com/seuperfil" target="_blank" class="c-link">
+          <span class="c-link-icon">⚡</span>
+          <div class="c-link-body">
+            <div class="c-link-lbl">GitHub</div>
+            <div class="c-link-val">github.com/seuperfil</div>
+          </div>
+        </a>
+        <div class="c-link" style="cursor: default;">
+          <span class="c-link-icon">📍</span>
+          <div class="c-link-body">
+            <div class="c-link-lbl">Localização</div>
+            <div class="c-link-val">Maringá, Paraná — Brasil</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal reveal-delay-1">
+      <form class="contact-form" onsubmit="handleForm(event)">
+        <div class="form-field">
+          <label class="form-lbl">Seu nome</label>
+          <input type="text" class="form-input" placeholder="Nome completo" required>
+        </div>
+        <div class="form-field">
+          <label class="form-lbl">Email</label>
+          <input type="email" class="form-input" placeholder="seu@email.com" required>
+        </div>
+        <div class="form-field">
+          <label class="form-lbl">Mensagem</label>
+          <textarea class="form-textarea" placeholder="Olá Myckael, tenho uma oportunidade..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" id="submitBtn">
+          Enviar mensagem →
+        </button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer>
+  <span class="footer-copy">© 2025 <em>Myckael Mourão</em> — Maringá, PR</span>
+</footer>
+
+<!-- ============================================================
+     JAVASCRIPT
+     ============================================================ -->
+<script>
+/* ─── CUSTOM CURSOR ─────────────────────────────────────────── */
+const dot  = document.getElementById('cursorDot');
+const ring = document.getElementById('cursorRing');
+let mx = 0, my = 0, rx = 0, ry = 0;
+
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  dot.style.left = mx + 'px';
+  dot.style.top  = my + 'px';
+});
+
+(function loopRing() {
+  rx += (mx - rx) * 0.14;
+  ry += (my - ry) * 0.14;
+  ring.style.left = rx + 'px';
+  ring.style.top  = ry + 'px';
+  requestAnimationFrame(loopRing);
+})();
+
+document.querySelectorAll('a, button, .trait, .media-item, .wt-card, .sport-tag, .c-link').forEach(el => {
+  el.addEventListener('mouseenter', () => ring.classList.add('hovered'));
+  el.addEventListener('mouseleave', () => ring.classList.remove('hovered'));
+});
+
+
+/* ─── NAVBAR ────────────────────────────────────────────────── */
+const navbar    = document.getElementById('navbar');
+const navToggle = document.getElementById('navToggle');
+const navMenu   = document.getElementById('navMenu');
+
+window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 40));
+
+navToggle.addEventListener('click', () => navMenu.classList.toggle('open'));
+document.querySelectorAll('.nav-menu a').forEach(a => a.addEventListener('click', () => navMenu.classList.remove('open')));
+
+
+/* ─── ROTATING WORD ─────────────────────────────────────────── */
+const words   = ['Desenvolvedor', 'Esportista', 'Analista PCM', 'Rank Mestre', 'Autodidata', 'Leitor em Inglês'];
+const typedEl = document.getElementById('typed-word');
+let wi = 0;
+
+function nextWord() {
+  typedEl.style.opacity = '0';
+  typedEl.style.transform = 'translateY(-8px)';
+  setTimeout(() => {
+    wi = (wi + 1) % words.length;
+    typedEl.textContent = words[wi];
+    typedEl.style.transition = 'opacity 0.35s ease, transform 0.35s ease';
+    typedEl.style.opacity = '1';
+    typedEl.style.transform = 'translateY(0)';
+  }, 300);
+}
+typedEl.style.transition = 'opacity 0.35s ease, transform 0.35s ease';
+setInterval(nextWord, 2600);
+
+
+/* ─── SCROLL REVEAL ─────────────────────────────────────────── */
+const revObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); revObs.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => revObs.observe(el));
+
+
+/* ─── SKILL BARS ─────────────────────────────────────────────── */
+const barObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.style.width = e.target.dataset.w + '%'; barObs.unobserve(e.target); } });
+}, { threshold: 0.3 });
+document.querySelectorAll('.skill-fill').forEach(b => barObs.observe(b));
+
+
+/* ─── TIMELINE STAGGER ──────────────────────────────────────── */
+const tlObs = new IntersectionObserver(entries => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) { setTimeout(() => e.target.classList.add('in'), i * 110); tlObs.unobserve(e.target); }
+  });
+}, { threshold: 0.15 });
+document.querySelectorAll('.tl-item').forEach(t => tlObs.observe(t));
+
+
+/* ─── LIGHTBOX ───────────────────────────────────────────────── */
+function openLightbox(el) {
+  const img   = el.querySelector('img');
+  const video = el.querySelector('video');
+  if (!img && !video) return;
+
+  const lb = document.getElementById('lightbox');
+  const lc = document.getElementById('lightboxContent');
+  lc.innerHTML = '';
+
+  if (img) {
+    const c = document.createElement('img');
+    c.src = img.src; c.alt = img.alt;
+    lc.appendChild(c);
+  } else {
+    const c = document.createElement('video');
+    c.src = video.src; c.controls = true; c.autoplay = true;
+    lc.appendChild(c);
+  }
+
+  lb.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.getElementById('lightboxContent').innerHTML = '';
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+document.querySelectorAll('.media-item').forEach(el => el.addEventListener('click', () => openLightbox(el)));
+
+
+/* ─── FORM FEEDBACK ─────────────────────────────────────────── */
+function handleForm(e) {
+  e.preventDefault();
+  const btn = document.getElementById('submitBtn');
+  btn.textContent = '✓ Mensagem enviada!';
+  btn.style.background = '#22c55e';
+  btn.style.boxShadow  = '0 0 30px rgba(34,197,94,0.35)';
+  btn.style.color      = '#000';
+  setTimeout(() => {
+    btn.textContent = 'Enviar mensagem →';
+    btn.style.cssText = '';
+    e.target.reset();
+  }, 3500);
+}
+</script>
+</body>
+>>>>>>> 3cb49d8c8c77b9b9d73717d051911b0891a7ad4d
 </html>
