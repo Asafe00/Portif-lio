@@ -1065,25 +1065,33 @@ footer {
       </div>
     </div>
 
-    <div class="reveal reveal-delay-1">
-      <form class="contact-form" onsubmit="handleForm(event)">
-        <div class="form-field">
-          <label class="form-lbl">Seu nome</label>
-          <input type="text" class="form-input" placeholder="Nome completo" required>
-        </div>
-        <div class="form-field">
-          <label class="form-lbl">Email</label>
-          <input type="email" class="form-input" placeholder="seu@email.com" required>
-        </div>
-        <div class="form-field">
-          <label class="form-lbl">Mensagem</label>
-          <textarea class="form-textarea" placeholder="Olá Myckael, tenho uma oportunidade..."></textarea>
-        </div>
-        <button type="submit" class="btn btn-primary" id="submitBtn">
-          Enviar mensagem →
-        </button>
-      </form>
+   <div class="reveal reveal-delay-1">
+  <form class="contact-form" id="contactForm">
+    <div class="form-field">
+      <label class="form-lbl">Seu nome</label>
+      <input type="text" name="nome" class="form-input" placeholder="Nome completo" required>
     </div>
+    <div class="form-field">
+      <label class="form-lbl">Email</label>
+      <input type="email" name="email" class="form-input" placeholder="seu@email.com" required>
+    </div>
+    <div class="form-field">
+      <label class="form-lbl">Mensagem</label>
+      <textarea name="mensagem" class="form-textarea" placeholder="Olá Myckael, tenho uma oportunidade..."></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary" id="submitBtn">
+      Enviar mensagem →
+    </button>
+
+    <!-- Feedback messages -->
+    <div id="form-success" style="display:none; margin-top:1rem; padding:0.9rem 1.1rem; background:rgba(34,197,94,0.1); border:1px solid rgba(34,197,94,0.3); border-radius:6px; font-family:'JetBrains Mono',monospace; font-size:0.75rem; color:#4ade80; letter-spacing:0.1em;">
+      ✓ MENSAGEM ENVIADA — entrarei em contato em breve!
+    </div>
+    <div id="form-error" style="display:none; margin-top:1rem; padding:0.9rem 1.1rem; background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.3); border-radius:6px; font-family:'JetBrains Mono',monospace; font-size:0.75rem; color:#f87171; letter-spacing:0.1em;">
+      ✕ ALGO DEU ERRADO — tente novamente ou me contate pelo LinkedIn.
+    </div>
+  </form>
+</div>
   </div>
 </section>
 
@@ -1208,19 +1216,62 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbo
 document.querySelectorAll('.media-item').forEach(el => el.addEventListener('click', () => openLightbox(el)));
 
 
-/* ─── FORM FEEDBACK ─────────────────────────────────────────── */
-function handleForm(e) {
+/* ─── FORM — FORMSPREE ──────────────────────────────────────── */
+const contactForm  = document.getElementById('contactForm');
+const submitBtn    = document.getElementById('submitBtn');
+const formSuccess  = document.getElementById('form-success');
+const formError    = document.getElementById('form-error');
+
+const FORMSPREE_URL = 'https://formspree.io/f/mnjlyeqr';
+
+contactForm.addEventListener('submit', async function(e) {
   e.preventDefault();
-  const btn = document.getElementById('submitBtn');
-  btn.textContent = '✓ Mensagem enviada!';
-  btn.style.background = '#22c55e';
-  btn.style.boxShadow  = '0 0 30px rgba(34,197,94,0.35)';
-  btn.style.color      = '#000';
-  setTimeout(() => {
-    btn.textContent = 'Enviar mensagem →';
-    btn.style.cssText = '';
-    e.target.reset();
-  }, 3500);
-}
+
+  // Estado de loading
+  submitBtn.disabled    = true;
+  submitBtn.textContent = 'Enviando...';
+  submitBtn.style.opacity = '0.7';
+  formSuccess.style.display = 'none';
+  formError.style.display   = 'none';
+
+  const formData = new FormData(contactForm);
+
+  try {
+    const response = await fetch(FORMSPREE_URL, {
+      method:  'POST',
+      body:    formData,
+      headers: { 'Accept': 'application/json' }
+    });
+
+    if (response.ok) {
+      // Sucesso
+      formSuccess.style.display = 'block';
+      contactForm.reset();
+      submitBtn.textContent = '✓ Enviado!';
+      submitBtn.style.background  = '#22c55e';
+      submitBtn.style.boxShadow   = '0 0 30px rgba(34,197,94,0.35)';
+      submitBtn.style.color       = '#000';
+      submitBtn.style.opacity     = '1';
+
+      setTimeout(() => {
+        submitBtn.textContent       = 'Enviar mensagem →';
+        submitBtn.style.background  = '';
+        submitBtn.style.boxShadow   = '';
+        submitBtn.style.color       = '';
+        submitBtn.disabled          = false;
+      }, 4000);
+
+    } else {
+      throw new Error('Resposta não OK');
+    }
+
+  } catch (err) {
+    // Erro
+    formError.style.display   = 'block';
+    submitBtn.textContent     = 'Tentar novamente';
+    submitBtn.style.opacity   = '1';
+    submitBtn.disabled        = false;
+  }
+});
 </script>
 </body>
